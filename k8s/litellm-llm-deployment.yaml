@@ -36,16 +36,14 @@ spec:
         - name: DATABASE_URL
           value: "postgresql://litellm:litellm@postgres:5432/litellm"
         livenessProbe:
-          httpGet:
-            path: /health
+          tcpSocket:
             port: 4000
           initialDelaySeconds: 120
           periodSeconds: 10
           timeoutSeconds: 5
           failureThreshold: 6
         readinessProbe:
-          httpGet:
-            path: /health
+          tcpSocket:
             port: 4000
           initialDelaySeconds: 60
           periodSeconds: 10

@@ -36,3 +36,4 @@ data:
       store_model_in_db: true
       master_key: "sk-audio-module-key"
       database_url: "postgresql://litellm:litellm@postgres:5432/litellm"
+      disable_auth_on_health_route: true
