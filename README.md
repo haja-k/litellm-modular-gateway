@@ -354,7 +354,7 @@ sudo firewall-cmd --reload
 - **[Complete Architecture Guide](docs/README-MODULAR-ARCHITECTURE.md)** – Module details
 - **[Security Configuration](docs/SECURITY.md)** – Security setup
 - **[Deployment Status](docs/DEPLOYMENT-STATUS.md)** – Deployment status and troubleshooting
-- **[AI Handoff Notes](docs/README-AI-HANDOFF.md)** – Technical context and history
+- **[Handoff Notes](docs/HANDOFF.md)** – Technical context and history
 - **Kubernetes manifests**: `k8s/` directory
 
 ---
