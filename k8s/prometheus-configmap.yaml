@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+    scrape_configs:
+      - job_name: 'litellm-llm-gateway'
+        static_configs:
+          - targets: ['litellm-llm-gateway:4000']
+      - job_name: 'litellm-vision-gateway'
+        static_configs:
+          - targets: ['litellm-vision-gateway:4000']
+      - job_name: 'litellm-audio-gateway'
+        static_configs:
+          - targets: ['litellm-audio-gateway:4000']
+      - job_name: 'litellm-image-gen-gateway'
+        static_configs:
+          - targets: ['litellm-image-gen-gateway:4000']
+      - job_name: 'litellm-embeddings-gateway'
+        static_configs:
+          - targets: ['litellm-embeddings-gateway:4000']

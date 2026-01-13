@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: litellm-llm-config
+data:
+  litellm-config.yaml: |
+    # LiteLLM LLM Module - Text generation and chat completions
+    # Handles: /v1/chat/completions, /v1/completions
+    
+    model_list:
+      - model_name: "gpt-4.1"
+        litellm_params:
+          model: "ollama/llama2"
+          api_base: "http://host.minikube.internal:11434"
+      
+      - model_name: "deepseek"
+        litellm_params:
+          model: "ollama/deepseek-coder"
+          api_base: "http://host.minikube.internal:11434"
+      
+      - model_name: "qwen"
+        litellm_params:
+          model: "ollama/qwen"
+          api_base: "http://host.minikube.internal:11434"
+      
+      - model_name: "llama"
+        litellm_params:
+          model: "ollama/llama2"
+          api_base: "http://host.minikube.internal:11434"
+      
+      - model_name: "gpt-oss"
+        litellm_params:
+          model: "ollama/llama2"
+          api_base: "http://host.minikube.internal:11434"
+
+    litellm_settings:
+      success_callback: ["prometheus"]
+      failure_callback: ["prometheus"]
+      drop_params: true
+      num_retries: 3
+      telemetry: false
+
+    general_settings:
+      store_model_in_db: true
+      master_key: "sk-llm-module-key"
+      database_url: "postgresql://litellm:litellm@postgres:5432/litellm"

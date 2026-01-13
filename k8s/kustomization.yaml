@@ -1,0 +1,47 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Modular LiteLLM Gateway Architecture
+# Each module is a separate deployment with its own config and endpoint
+# 
+# Module Endpoints (NodePort):
+# - LLM (chat/completions): :30100
+# - Vision (image-to-text): :30200
+# - Audio (speech-to-text): :30300
+# - Image Generation: :30400
+# - Embeddings: :30500
+
+resources:
+  # Shared infrastructure
+  - postgres-schema-configmap.yaml
+  - postgres-deployment.yaml
+  - postgres-service.yaml
+  - prometheus-configmap.yaml
+  - prometheus-deployment.yaml
+  - prometheus-service.yaml
+  
+  # LLM Module (Text generation and chat completions)
+  - litellm-llm-configmap.yaml
+  - litellm-llm-deployment.yaml
+  - litellm-llm-service.yaml
+  
+  # Vision Module (Image-to-text capabilities)
+  - litellm-vision-configmap.yaml
+  - litellm-vision-deployment.yaml
+  - litellm-vision-service.yaml
+  
+  # Audio Module (Speech-to-text)
+  - litellm-audio-configmap.yaml
+  - litellm-audio-deployment.yaml
+  - litellm-audio-service.yaml
+  
+  # Image Generation Module
+  - litellm-image-gen-configmap.yaml
+  - litellm-image-gen-deployment.yaml
+  - litellm-image-gen-service.yaml
+  
+  # Embeddings Module
+  - litellm-embeddings-configmap.yaml
+  - litellm-embeddings-deployment.yaml
+  - litellm-embeddings-service.yaml
+

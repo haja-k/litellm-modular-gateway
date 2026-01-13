@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: litellm-image-gen-config
+data:
+  litellm-config.yaml: |
+    # LiteLLM Image Generation Module
+    # Handles: /v1/images/generations
+    
+    model_list:
+      - model_name: "dall-e-3"
+        litellm_params:
+          model: "dall-e-3"
+          api_base: "http://host.minikube.internal:7860/v1"
+          # Note: This requires an image generation API endpoint
+          # Options: Stable Diffusion WebUI API, ComfyUI, or cloud providers
+      
+      - model_name: "stable-diffusion"
+        litellm_params:
+          model: "dall-e-3"
+          api_base: "http://host.minikube.internal:7860/v1"
+      
+      - model_name: "image-gen"
+        litellm_params:
+          model: "dall-e-3"
+          api_base: "http://host.minikube.internal:7860/v1"
+
+    litellm_settings:
+      success_callback: ["prometheus"]
+      failure_callback: ["prometheus"]
+      drop_params: true
+      num_retries: 3
+      telemetry: false
+
+    general_settings:
+      store_model_in_db: true
+      master_key: "sk-image-gen-module-key"
+      database_url: "postgresql://litellm:litellm@postgres:5432/litellm"

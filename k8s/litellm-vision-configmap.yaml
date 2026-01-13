@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: litellm-vision-config
+data:
+  litellm-config.yaml: |
+    # LiteLLM Vision Module - Image-to-text capabilities
+    # Handles: /v1/chat/completions with image inputs, vision models
+    
+    model_list:
+      - model_name: "gpt-4-vision"
+        litellm_params:
+          model: "ollama/llava"
+          api_base: "http://host.minikube.internal:11434"
+      
+      - model_name: "llava"
+        litellm_params:
+          model: "ollama/llava"
+          api_base: "http://host.minikube.internal:11434"
+      
+      - model_name: "bakllava"
+        litellm_params:
+          model: "ollama/bakllava"
+          api_base: "http://host.minikube.internal:11434"
+      
+      - model_name: "vision-general"
+        litellm_params:
+          model: "ollama/llava"
+          api_base: "http://host.minikube.internal:11434"
+
+    litellm_settings:
+      success_callback: ["prometheus"]
+      failure_callback: ["prometheus"]
+      drop_params: true
+      num_retries: 3
+      telemetry: false
+
+    general_settings:
+      store_model_in_db: true
+      master_key: "sk-vision-module-key"
+      database_url: "postgresql://litellm:litellm@postgres:5432/litellm"

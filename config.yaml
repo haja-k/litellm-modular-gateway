@@ -1,0 +1,38 @@
+# LiteLLM Proxy configuration
+# Configure for open-source models hosted locally or via providers
+
+model_list:
+  # Example: Ollama local models
+  - model_name: "llama2"
+    litellm_params:
+      model: "ollama/llama2"
+      api_base: "http://host.docker.internal:11434"  # Adjust if your Ollama is elsewhere
+
+  # Example: Mistral via Ollama
+  - model_name: "mistral"
+    litellm_params:
+      model: "ollama/mistral"
+      api_base: "http://host.docker.internal:11434"
+
+  # Example: HuggingFace models (requires HF API key if using hosted inference)
+  # - model_name: "llama-2-7b"
+  #   litellm_params:
+  #     model: "huggingface/meta-llama/Llama-2-7b-chat-hf"
+  #     api_key: os.environ/HUGGINGFACE_API_KEY
+
+  # Example: vLLM hosted model
+  # - model_name: "my-vllm-model"
+  #   litellm_params:
+  #     model: "openai/my-model-name"
+  #     api_base: "http://your-vllm-server:8000/v1"
+
+litellm_settings:
+  success_callback: ["prometheus"]
+  failure_callback: ["prometheus"]
+  drop_params: true
+  num_retries: 3
+  telemetry: false
+
+general_settings:
+  store_model_in_db: true
+  # master_key not required for local open-source model hosting

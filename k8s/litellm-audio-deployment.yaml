@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: litellm-audio-gateway
+  labels:
+    app: litellm-audio-gateway
+    module: audio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: litellm-audio-gateway
+  template:
+    metadata:
+      labels:
+        app: litellm-audio-gateway
+        module: audio
+    spec:
+      containers:
+      - name: litellm
+        image: ghcr.io/berriai/litellm:main-latest
+        args:
+          - "--config"
+          - "/config/litellm-config.yaml"
+          - "--port"
+          - "4000"
+          - "--host"
+          - "0.0.0.0"
+        ports:
+        - containerPort: 4000
+          name: http
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        env:
+        - name: DATABASE_URL
+          value: "postgresql://litellm:litellm@postgres:5432/litellm"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 4000
+          initialDelaySeconds: 120
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 6
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 4000
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+      volumes:
+      - name: config
+        configMap:
+          name: litellm-audio-config

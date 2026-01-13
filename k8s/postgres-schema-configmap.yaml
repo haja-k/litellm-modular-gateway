@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-schema
+data:
+  init.sql: |
+    CREATE TABLE IF NOT EXISTS tenants (
+      id SERIAL PRIMARY KEY,
+      name TEXT UNIQUE NOT NULL,
+      api_key TEXT UNIQUE NOT NULL,
+      model_allowlist TEXT[],
+      max_tokens INT,
+      max_concurrency INT,
+      tier TEXT
+    );
+    CREATE TABLE IF NOT EXISTS usage_logs (
+      id SERIAL PRIMARY KEY,
+      tenant_id INT REFERENCES tenants(id),
+      timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      tokens_used INT,
+      model TEXT,
+      endpoint TEXT
+    );
+    CREATE TABLE IF NOT EXISTS audit_trail (
+      id SERIAL PRIMARY KEY,
+      tenant_id INT REFERENCES tenants(id),
+      action TEXT,
+      timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
